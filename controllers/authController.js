@@ -1,7 +1,74 @@
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
+import bcrypt from "bcryptjs";
 
+// 🔥 STEP 1: EMAIL CHECK
+export const forgotEmailCheck = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ msg: "Email not found" });
+    }
+
+    res.json({ msg: "Email verified" });
+
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+// 🔥 STEP 2: SECURITY ANSWERS VERIFY
+export const verifyAnswers = async (req, res) => {
+  try {
+    const { email, answer1, answer2, answer3 } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    if (
+      user.answer1 !== answer1 ||
+      user.answer2 !== answer2 ||
+      user.answer3 !== answer3
+    ) {
+      return res.status(400).json({ msg: "Wrong security answers" });
+    }
+
+    res.json({ msg: "Answers verified" });
+
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+// 🔥 STEP 3: RESET PASSWORD
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+
+    await user.save();
+
+    res.json({ msg: "Password reset successful" });
+
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
 
 
 // ✅ REGISTER

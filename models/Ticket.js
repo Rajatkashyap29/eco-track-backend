@@ -34,7 +34,7 @@ const ticketSchema = new mongoose.Schema(
       default: "open",
     },
 
-    response: String, // admin reply
+    response: String, 
   },
   { timestamps: true }
 );

@@ -39,6 +39,7 @@ router.get("/:id", protect, getComplaintById);
 router.get("/stats/dashboard", protect, adminOnly, getDashboardStats);
 
 router.get("/stats/staff", protect, staffOnly, getStaffStats);
+
 router.get("/stats/user", protect, getUserStats);
 
 export default router;

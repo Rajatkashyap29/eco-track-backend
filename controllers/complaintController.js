@@ -1,4 +1,5 @@
 import Complaint from "../models/Complaint.js";
+import User from "../models/User.js";
 
 // ✅ CREATE COMPLAINT
 export const createComplaint = async (req, res) => {
@@ -112,35 +113,36 @@ export const updateStatus = async (req, res) => {
 
 export const getAllComplaints = async (req, res) => {
   try {
-    const page = Number(req.query.page) || 1;
-    const limit = 10;
+    const {
+      page = 1,
+      limit = 10,
+      assignedTo = "",
+      user = "", // 🔥 ADD THIS
+    } = req.query;
 
-    const keyword = req.query.search
-      ? {
-          title: { $regex: req.query.search, $options: "i" },
-        }
-      : {};
+    const query = {};
 
-    const statusFilter = req.query.status
-      ? { status: req.query.status }
-      : {};
+    // 🔥 FILTER BY STAFF
+    if (assignedTo) {
+      query.assignedTo = assignedTo;
+    }
 
-    const query = {
-      ...keyword,
-      ...statusFilter,
-    };
-
-    const total = await Complaint.countDocuments(query);
+    // 🔥 FILTER BY USER (VERY IMPORTANT)
+    if (user) {
+      query.user = user;
+    }
 
     const complaints = await Complaint.find(query)
       .populate("user", "name email")
-      .populate("assignedTo", "name")
+      .populate("assignedTo", "name email")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
-      .limit(limit);
+      .limit(Number(limit));
+
+    const total = await Complaint.countDocuments(query);
 
     res.json({
-      page,
+      page: Number(page),
       totalPages: Math.ceil(total / limit),
       total,
       complaints,
