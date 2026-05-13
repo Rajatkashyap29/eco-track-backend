@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import Complaint from "../models/Complaint.js";
 
-// 🔥 ADMIN → ALL USERS
+//  ADMIN → ALL USERS
 export const getAllUsers = async (req, res) => {
   try {
     const {
@@ -22,19 +22,19 @@ export const getAllUsers = async (req, res) => {
       ];
     }
 
-    // 🎯 ROLE
+    //  ROLE
     if (role) {
       query.role = role;
     }
 
-    // 🔥 STEP 1: FETCH PAGINATED USERS
+    //  STEP 1: FETCH PAGINATED USERS
     const users = await User.find(query)
       .select("-password")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
-    // 🔥 STEP 2: ADD TASK COUNT
+    //  STEP 2: ADD TASK COUNT
     const usersWithTasks = await Promise.all(
       users.map(async (u) => {
         const count = await Complaint.countDocuments({
@@ -49,7 +49,7 @@ export const getAllUsers = async (req, res) => {
       })
     );
 
-    // 🔥 STEP 3: STATUS FILTER (IMPORTANT NOTE)
+    //  STEP 3: STATUS FILTER (IMPORTANT NOTE)
     let finalUsers = usersWithTasks;
 
     if (status) {
@@ -58,7 +58,7 @@ export const getAllUsers = async (req, res) => {
       );
     }
 
-    // 🔥 STEP 4: TOTAL COUNT (for pagination)
+    //  STEP 4: TOTAL COUNT (for pagination)
     const totalUsers = await User.countDocuments(query);
 
     res.json({
@@ -74,7 +74,7 @@ export const getAllUsers = async (req, res) => {
 };
 
 
-// 🔍 USER DETAIL
+//  USER DETAIL
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");

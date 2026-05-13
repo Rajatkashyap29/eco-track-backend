@@ -17,16 +17,16 @@ import express from "express";
 
 const router = express.Router();
 
-// ✅ CREATE
+// CREATE
 router.post("/", protect, upload.array("images", 3), createComplaint);
 
-// ✅ USER → GET MY
+//  USER → GET MY
 router.get("/my", protect, getMyComplaints);
 
-// ✅ ADMIN → ASSIGN
+//  ADMIN → ASSIGN
 router.put("/assign/:id", protect, adminOnly, assignStaff);
 
-// ✅ STAFF → UPDATE STATUS
+//  STAFF → UPDATE STATUS
 router.put("/status/:id", protect, staffOnly, updateStatus);
 
 router.get("/all", protect, adminOnly, getAllComplaints);

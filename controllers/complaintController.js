@@ -1,7 +1,7 @@
 import Complaint from "../models/Complaint.js";
 import User from "../models/User.js";
 
-// ✅ CREATE COMPLAINT
+//  CREATE COMPLAINT
 export const createComplaint = async (req, res) => {
   try {
     const {
@@ -18,7 +18,7 @@ export const createComplaint = async (req, res) => {
       locationExtra,
     } = req.body;
 
-    // 🔥 IMAGE PATHS
+    //  IMAGE PATHS
     const images = req.files.map((file) => file.path);
 
     if (images.length !== 3) {
@@ -94,7 +94,7 @@ export const updateStatus = async (req, res) => {
       return res.status(404).json({ msg: "Complaint not found" });
     }
 
-    // 🔥 only assigned staff update kar sakta hai
+    //  only assigned staff update kar sakta hai
     if (complaint.assignedTo.toString() !== req.user._id.toString()) {
       return res.status(403).json({ msg: "Not authorized" });
     }
@@ -117,17 +117,17 @@ export const getAllComplaints = async (req, res) => {
       page = 1,
       limit = 10,
       assignedTo = "",
-      user = "", // 🔥 ADD THIS
+      user = "", 
     } = req.query;
 
     const query = {};
 
-    // 🔥 FILTER BY STAFF
+    //  FILTER BY STAFF
     if (assignedTo) {
       query.assignedTo = assignedTo;
     }
 
-    // 🔥 FILTER BY USER (VERY IMPORTANT)
+    //  FILTER BY USER (VERY IMPORTANT)
     if (user) {
       query.user = user;
     }

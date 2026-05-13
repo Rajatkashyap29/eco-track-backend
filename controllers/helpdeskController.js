@@ -52,7 +52,7 @@ export const getAllTickets = async (req, res) => {
 
     const query = {};
 
-    // 🔥 SEARCH FIX
+    //  SEARCH FIX
     if (search) {
       query.$or = [
         { topic: { $regex: search, $options: "i" } },
@@ -61,12 +61,12 @@ export const getAllTickets = async (req, res) => {
       ];
     }
 
-    // 🔥 STATUS FIX (case insensitive)
+    // STATUS FIX (case insensitive)
     if (status) {
       query.status = { $regex: `^${status}$`, $options: "i" };
     }
 
-    // 🔥 PRIORITY FIX
+    //  PRIORITY FIX
     if (priority) {
       query.priority = { $regex: `^${priority}$`, $options: "i" };
     }

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-// 🔒 PROTECT (AUTH)
+//  PROTECT (AUTH)
 export const protect = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
@@ -18,7 +18,7 @@ export const protect = async (req, res, next) => {
       return res.status(401).json({ msg: "User not found" });
     }
 
-    // 🚫 BLOCK CHECK
+    //  BLOCK CHECK
     if (user.isBlocked) {
       return res.status(403).json({ msg: "Account blocked" });
     }
@@ -34,7 +34,7 @@ export const protect = async (req, res, next) => {
 
 
 
-// 🔴 ADMIN ONLY
+//  ADMIN ONLY
 export const adminOnly = (req, res, next) => {
   if (req.user.role !== "admin") {
     return res.status(403).json({ msg: "Admin access only" });
@@ -44,7 +44,7 @@ export const adminOnly = (req, res, next) => {
 
 
 
-// 🔵 STAFF ONLY
+//  STAFF ONLY
 export const staffOnly = (req, res, next) => {
   if (req.user.role !== "staff") {
     return res.status(403).json({ msg: "Staff access only" });

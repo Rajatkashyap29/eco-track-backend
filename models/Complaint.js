@@ -8,7 +8,7 @@ const complaintSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 🗑️ WASTE DETAILS
+    //  WASTE DETAILS
     title: { type: String, required: true },
     wasteType: {
       type: String,
@@ -27,7 +27,7 @@ const complaintSchema = new mongoose.Schema(
 
     images: [{ type: String, required: true }], // URLs
 
-    // 📍 LOCATION
+    //  LOCATION
     pincode: { type: String, required: true },
     ward: String,
     city: { type: String, required: true },
@@ -35,7 +35,7 @@ const complaintSchema = new mongoose.Schema(
     landmark: String,
     locationExtra: String,
 
-    // 🔄 STATUS FLOW
+    //  STATUS FLOW
     status: {
       type: String,
       enum: ["pending", "assigned", "in-progress", "completed"],

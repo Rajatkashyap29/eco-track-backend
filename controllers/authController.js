@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
 import bcrypt from "bcryptjs";
 
-// 🔥 STEP 1: EMAIL CHECK
+//  STEP 1: EMAIL CHECK
 export const forgotEmailCheck = async (req, res) => {
   try {
     const { email } = req.body;
@@ -20,7 +20,7 @@ export const forgotEmailCheck = async (req, res) => {
   }
 };
 
-// 🔥 STEP 2: SECURITY ANSWERS VERIFY
+//  STEP 2: SECURITY ANSWERS VERIFY
 export const verifyAnswers = async (req, res) => {
   try {
     const { email, answer1, answer2, answer3 } = req.body;
@@ -46,7 +46,7 @@ export const verifyAnswers = async (req, res) => {
   }
 };
 
-// 🔥 STEP 3: RESET PASSWORD
+//  STEP 3: RESET PASSWORD
 export const resetPassword = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
@@ -71,7 +71,7 @@ export const resetPassword = async (req, res) => {
 };
 
 
-// ✅ REGISTER
+//  REGISTER
 export const registerUser = async (req, res) => {
   try {
     const {
@@ -88,7 +88,7 @@ export const registerUser = async (req, res) => {
       answer3,
     } = req.body;
 
-    // 🔥 VALIDATION
+    //  VALIDATION
     if (
       !name ||
       !email ||
@@ -154,7 +154,7 @@ export const registerUser = async (req, res) => {
 
 
 
-// ✅ LOGIN
+// LOGIN
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
